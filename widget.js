@@ -101,6 +101,7 @@
       float: none !important;
       clear: none !important;
       vertical-align: baseline !important;
+      z-index: 2147483647 !important;
     }
 
     .gewurz-widget-container .gewurz-chat-button:hover {
@@ -150,7 +151,7 @@
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
       overflow: hidden !important;
       display: block !important;
-      z-index: 2147483647 !important;
+      z-index: 2147483646 !important;
     }
 
     .gewurz-widget-container .gewurz-chat-modal.open {
@@ -271,6 +272,7 @@
       .gewurz-widget-container .gewurz-chat-button {
         width: 72px !important;
         height: 72px !important;
+        z-index: 2147483647 !important;
       }
 
       .gewurz-widget-container .gewurz-chat-button img {
@@ -304,7 +306,7 @@
         padding-top: env(safe-area-inset-top) !important;
         padding-bottom: env(safe-area-inset-bottom) !important;
         box-shadow: none !important;
-        z-index: 2147483647 !important;
+        z-index: 2147483646 !important;
         background: transparent !important;
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
