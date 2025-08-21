@@ -303,9 +303,9 @@
         padding-bottom: env(safe-area-inset-bottom) !important;
         box-shadow: none !important;
         z-index: 2147483647 !important;
-        background: rgba(12, 12, 30, 0.85) !important;
-        backdrop-filter: blur(10px) !important;
-        -webkit-backdrop-filter: blur(10px) !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
       }
 
       .gewurz-widget-container .gewurz-chat-modal.open {
@@ -514,10 +514,31 @@
         this.chatIframe.src = CONFIG.chatUrl;
         
         this.chatIframe.onload = () => {
+          // Додаємо стилі для мобільних після завантаження iframe
+          this.injectMobileStyles();
           this.checkForContent();
         };
         
         this.isLoaded = true;
+      }
+    }
+
+    injectMobileStyles() {
+      try {
+        if (window.innerWidth <= 768) {
+          const iframeDoc = this.chatIframe.contentDocument || this.chatIframe.contentWindow.document;
+          const style = iframeDoc.createElement('style');
+          style.textContent = `
+            .chat-history {
+              background-color: rgba(0, 102, 99, 0.8) !important;
+              background: rgba(0, 102, 99, 0.8) !important;
+            }
+          `;
+          iframeDoc.head.appendChild(style);
+        }
+      } catch (error) {
+        // Ігноруємо CORS помилки
+        console.log('Cannot inject styles due to CORS');
       }
     }
 
