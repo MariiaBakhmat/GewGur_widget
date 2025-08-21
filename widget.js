@@ -1,15 +1,23 @@
+// Gewürz Guru Chat Widget v1.0
+// Точно по дизайну з Фігми
 (function() {
   'use strict';
   
+  // Перевірка чи віджет вже завантажений
   if (window.GewurzChatLoaded) return;
   window.GewurzChatLoaded = true;
 
- 
+  // КОНФІГУРАЦІЯ - змінюйте тут параметри
   const CONFIG = {
+    // URL вашого чату
     chatUrl: 'https://mariiabakhmat.github.io/GewGur_widget/chat.html',
+    
+    // URL іконки кнопки
     iconUrl: 'https://github.com/MariiaBakhmat/GewGur_widget/raw/main/Group%20112.webp',
-    showNotificationAfter: 0, 
-    position: 'bottom-right'      
+    
+    // Поведінка
+    showNotificationAfter: 0, // показати червону крапку через 0 сек (вимкнено)
+    position: 'bottom-right'      // позиція віджета
   };
 
   // CSS стилі - точно по Фігмі
@@ -133,12 +141,10 @@
       background: transparent;
     }
 
-    .gewurz-loading {
-      padding: 20px;
-      height: 100%;
-      background: linear-gradient(135deg, #003836, #004240);
+    @keyframes gewurz-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
-
 
     @keyframes gewurz-pulse {
       0%, 100% { transform: scale(1); }
@@ -255,13 +261,16 @@
 
       this.bindEvents();
       this.scheduleNotification();
-      {
-    if (event.data.type === 'chat-loaded') {
-
+      
+      // Слухаємо повідомлення від чату
+      window.addEventListener('message', (event) => {
+        if (event.data.type === 'chat-loaded') {
+          // Контент завантажився, спіннер автоматично зникне
+          console.log('Chat content loaded');
+        }
+      });
     }
-  });
-}
-  
+
     bindEvents() {
       this.chatButton.addEventListener('click', () => this.toggleChat());
       this.closeButton.addEventListener('click', () => this.closeChat());
@@ -294,18 +303,29 @@
       this.hideNotification();
       
       if (!this.isLoaded) {
-        // Показуємо скелетон
+        // Показуємо спіннер з блюром
         this.chatIframe.innerHTML = `
-          <div class="gewurz-loading">
-            <div class="skeleton-header"></div>
-            <div class="skeleton-message-bot"></div>
-            <div class="skeleton-message-user"></div>
-            <div class="skeleton-message-bot" style="width: 60%;"></div>
-            <div class="skeleton-input"></div>
+          <div style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: rgba(0, 56, 54, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+          ">
+            <div style="
+              width: 40px;
+              height: 40px;
+              border: 3px solid rgba(219, 197, 157, 0.3);
+              border-top: 3px solid #DBC59D;
+              border-radius: 50%;
+              animation: gewurz-spin 1s linear infinite;
+            "></div>
           </div>
         `;
         
-        // Завантажуємо чат відразу без затримки
+        // Завантажуємо чат
         this.chatIframe.src = CONFIG.chatUrl;
         this.isLoaded = true;
       }
@@ -317,11 +337,13 @@
     }
 
     scheduleNotification() {
-      setTimeout(() => {
-        if (!this.isOpen) {
-          this.showNotification();
-        }
-      }, CONFIG.showNotificationAfter);
+      if (CONFIG.showNotificationAfter > 0) {
+        setTimeout(() => {
+          if (!this.isOpen) {
+            this.showNotification();
+          }
+        }, CONFIG.showNotificationAfter);
+      }
     }
 
     showNotification() {
@@ -362,4 +384,3 @@
   }
 
 })();
-
