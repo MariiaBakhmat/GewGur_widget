@@ -1,22 +1,18 @@
-
 (function() {
   'use strict';
   
   if (window.GewurzChatLoaded) return;
   window.GewurzChatLoaded = true;
 
-
+ 
   const CONFIG = {
-  
     chatUrl: 'https://mariiabakhmat.github.io/GewGur_widget/chat.html',
-    
     iconUrl: 'https://github.com/MariiaBakhmat/GewGur_widget/raw/main/Group%20112.webp',
-    
-    showNotificationAfter: 8000, 
+    showNotificationAfter: 0, 
     position: 'bottom-right'      
   };
 
-
+  // CSS стилі - точно по Фігмі
   const CSS = `
     .gewurz-widget {
       position: fixed;
@@ -36,7 +32,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      box-shadow: none;
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
@@ -44,7 +40,6 @@
 
     .gewurz-chat-button:hover {
       transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     }
 
     .gewurz-chat-button img {
@@ -111,24 +106,24 @@
     }
 
     .gewurz-close-button {
-      background: rgba(255, 255, 255, 0.9);
+      background: none;
       border: none;
-      color: #336C4D;
-      font-size: 16px;
+      color: #FFFFFF;
+      font-size: 20px;
       cursor: pointer;
-      padding: 4px;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
+      padding: 0;
+      border-radius: 0;
+      width: 34px;
+      height: 29px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background-color 0.2s;
-      font-weight: bold;
+      transition: opacity 0.2s;
+      font-weight: normal;
     }
 
     .gewurz-close-button:hover {
-      background-color: rgba(255, 255, 255, 1);
+      opacity: 0.8;
     }
 
     .gewurz-chat-iframe {
@@ -139,24 +134,52 @@
     }
 
     .gewurz-loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 20px;
       height: 100%;
-      color: #336C4D;
-      font-size: 14px;
+      background: linear-gradient(135deg, #003836, #004240);
     }
 
-    .gewurz-loading::after {
-      content: '...';
-      animation: gewurz-dots 1.5s infinite;
+    .skeleton-header {
+      height: 60px;
+      background: rgba(219, 197, 157, 0.1);
+      border-radius: 8px;
+      margin-bottom: 15px;
+      animation: gewurz-pulse-skeleton 1.5s infinite;
     }
 
-    @keyframes gewurz-dots {
-      0%, 20% { content: '.'; }
-      40% { content: '..'; }
-      60% { content: '...'; }
-      80%, 100% { content: ''; }
+    .skeleton-message-bot {
+      height: 40px;
+      background: rgba(219, 197, 157, 0.1);
+      border-radius: 20px;
+      width: 70%;
+      margin-bottom: 10px;
+      animation: gewurz-pulse-skeleton 1.5s infinite;
+    }
+
+    .skeleton-message-user {
+      height: 40px;
+      background: rgba(234, 224, 181, 0.3);
+      border-radius: 20px;
+      width: 50%;
+      margin-left: auto;
+      margin-bottom: 10px;
+      animation: gewurz-pulse-skeleton 1.5s infinite;
+    }
+
+    .skeleton-input {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      height: 40px;
+      background: rgba(234, 224, 181, 0.2);
+      border-radius: 25px;
+      animation: gewurz-pulse-skeleton 1.5s infinite;
+    }
+
+    @keyframes gewurz-pulse-skeleton {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
     }
 
     @keyframes gewurz-pulse {
@@ -183,6 +206,12 @@
       .gewurz-chat-button img {
         width: 72px;
         height: 72px;
+      }
+
+      .gewurz-close-button {
+        width: 7px;
+        height: 4px;
+        font-size: 12px;
       }
 
       .gewurz-chat-modal {
@@ -302,11 +331,20 @@
       this.hideNotification();
       
       if (!this.isLoaded) {
-        this.chatIframe.innerHTML = '<div class="gewurz-loading">Завантаження чату</div>';
-        setTimeout(() => {
-          this.chatIframe.src = CONFIG.chatUrl;
-          this.isLoaded = true;
-        }, 500);
+        // Показуємо скелетон
+        this.chatIframe.innerHTML = `
+          <div class="gewurz-loading">
+            <div class="skeleton-header"></div>
+            <div class="skeleton-message-bot"></div>
+            <div class="skeleton-message-user"></div>
+            <div class="skeleton-message-bot" style="width: 60%;"></div>
+            <div class="skeleton-input"></div>
+          </div>
+        `;
+        
+        // Завантажуємо чат відразу без затримки
+        this.chatIframe.src = CONFIG.chatUrl;
+        this.isLoaded = true;
       }
     }
 
