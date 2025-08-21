@@ -607,6 +607,29 @@
       const spinner = document.createElement('div');
       spinner.className = 'gewurz-spinner';
       
+      // Застосовуємо мобільні стилі для спіннера якщо потрібно
+      if (window.innerWidth <= 768) {
+        spinnerOverlay.style.cssText = `
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          border-radius: 16px !important;
+          background: rgba(0, 56, 54, 0.9) !important;
+          backdrop-filter: blur(8px) !important;
+          -webkit-backdrop-filter: blur(8px) !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          z-index: 10 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        `;
+      }
+      
       spinnerOverlay.appendChild(spinner);
       this.chatModal.appendChild(spinnerOverlay);
     }
