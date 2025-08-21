@@ -10,7 +10,7 @@
   // КОНФІГУРАЦІЯ - змінюйте тут параметри
   const CONFIG = {
     // URL вашого чату (ЗАМІНІТЬ НА АКТУАЛЬНИЙ!)
-    chatUrl: 'https://YOUR_GITHUB_USERNAME.github.io/gewurz-widget/chat.html',
+    chatUrl: 'chatUrl: 'https://mariiabakhmat.github.io/GewGur_widget/chat.html',
     
     // URL іконки кнопки
     iconUrl: 'https://github.com/MariiaBakhmat/GewGur_widget/raw/main/Group%20112.webp',
@@ -365,3 +365,4 @@
   }
 
 })();
+
