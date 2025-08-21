@@ -259,8 +259,8 @@
       animation: gewurz-pulse 1s ease-in-out 3 !important;
     }
 
-    /* Мобільна версія */
-    @media (max-width: 768px) {
+    /* Мобільна версія з врахуванням safe area */
+    @media screen and (max-width: 768px) {
       .gewurz-widget-container {
         bottom: 16px !important;
         right: 16px !important;
@@ -277,9 +277,9 @@
       }
 
       .gewurz-widget-container .gewurz-close-button {
-        width: 7px !important;
-        height: 4px !important;
-        font-size: 12px !important;
+        width: 34px !important;
+        height: 29px !important;
+        font-size: 20px !important;
       }
 
       .gewurz-widget-container .gewurz-chat-modal {
@@ -290,21 +290,98 @@
         bottom: 0 !important;
         width: 100vw !important;
         height: 100vh !important;
+        height: 100dvh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        max-height: 100dvh !important;
         border-radius: 0 !important;
         transform: translateY(100%) !important;
         border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        padding-top: env(safe-area-inset-top) !important;
+        padding-bottom: env(safe-area-inset-bottom) !important;
+        box-shadow: none !important;
+        z-index: 2147483647 !important;
+        background: #0c0c1e !important;
       }
 
       .gewurz-widget-container .gewurz-chat-modal.open {
         transform: translateY(0) !important;
+        opacity: 1 !important;
       }
 
       .gewurz-widget-container .gewurz-chat-iframe {
+        width: 100vw !important;
         height: 100vh !important;
+        height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: absolute !important;
+        top: env(safe-area-inset-top) !important;
+        left: 0 !important;
+      }
+
+      .gewurz-widget-container .gewurz-chat-header {
+        position: absolute !important;
+        top: calc(env(safe-area-inset-top) + 10px) !important;
+        right: 10px !important;
+        z-index: 2147483648 !important;
       }
 
       .gewurz-widget-container .gewurz-spinner-overlay {
         border-radius: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        top: 0 !important;
+        left: 0 !important;
+        padding-top: env(safe-area-inset-top) !important;
+        padding-bottom: env(safe-area-inset-bottom) !important;
+      }
+    }
+
+    /* Додаткові мобільні стилі для дуже маленьких екранів */
+    @media screen and (max-width: 480px) {
+      .gewurz-widget-container .gewurz-chat-modal {
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        min-width: 100vw !important;
+        min-height: 100vh !important;
+        min-height: 100dvh !important;
+      }
+      
+      .gewurz-widget-container .gewurz-chat-iframe {
+        width: 100vw !important;
+        height: 100vh !important;
+        height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+        min-width: 100vw !important;
+        min-height: 100vh !important;
+        min-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+      }
+    }
+
+    /* Стилі для старих браузерів що не підтримують dvh */
+    @supports not (height: 100dvh) {
+      @media screen and (max-width: 768px) {
+        .gewurz-widget-container .gewurz-chat-modal {
+          height: 100vh !important;
+          max-height: 100vh !important;
+        }
+        
+        .gewurz-widget-container .gewurz-chat-iframe {
+          height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+          max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+        }
+        
+        .gewurz-widget-container .gewurz-spinner-overlay {
+          height: 100vh !important;
+        }
       }
     }
   `;
@@ -320,6 +397,20 @@
     fontLink.href = 'https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Lato:wght@300;400;700&display=swap';
     fontLink.rel = 'stylesheet';
     document.head.appendChild(fontLink);
+  }
+
+  // Перевіряємо і додаємо правильний viewport meta для мобільних
+  let viewportMeta = document.querySelector('meta[name="viewport"]');
+  if (viewportMeta) {
+    const currentContent = viewportMeta.getAttribute('content');
+    if (!currentContent.includes('viewport-fit=cover')) {
+      viewportMeta.setAttribute('content', currentContent + ', viewport-fit=cover');
+    }
+  } else {
+    viewportMeta = document.createElement('meta');
+    viewportMeta.name = 'viewport';
+    viewportMeta.content = 'width=device-width, initial-scale=1, viewport-fit=cover';
+    document.head.appendChild(viewportMeta);
   }
 
   // HTML віджета з батьківським контейнером
