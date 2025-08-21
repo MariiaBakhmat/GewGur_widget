@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <title>Gewürz Guru Chat</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
@@ -390,10 +390,10 @@
           body: JSON.stringify({ sessionId, chatInput: message }),
         });
         const data = await res.json();
-        appendMessage("bot", data.text || "[Hoppla, da ist etwas schiefgelaufen. Bitte versuche es später erneut oder wende dich an den Support.]");
+        appendMessage("bot", data.text || "[Hoppla, da ist etwas schiefgelaufen...]");
       } catch (e) {
         console.error(e);
-        appendMessage("bot", "[Hoppla, da ist etwas schiefgelaufen. Bitte versuche es später erneut oder wende dich an den Support.]");
+        appendMessage("bot", "[Hoppla, da ist etwas schiefgelaufen...]");
       } finally {
         if (loaderBubble) loaderBubble.remove();
         isWaitingForResponse = false;
@@ -419,4 +419,3 @@
   </script>
 </body>
 </html>
-
