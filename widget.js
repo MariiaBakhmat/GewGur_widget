@@ -288,24 +288,24 @@
 
       .gewurz-widget-container .gewurz-chat-modal {
         position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        bottom: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;
-        max-width: 100vw !important;
-        max-height: 100vh !important;
-        max-height: 100dvh !important;
-        border-radius: 0 !important;
-        transform: translateY(100%) !important;
-        border: none !important;
+        top: 20px !important;
+        left: 10px !important;
+        right: 10px !important;
+        bottom: 100px !important;
+        width: calc(100vw - 20px) !important;
+        height: calc(100vh - 120px) !important;
+        height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 120px) !important;
+        max-width: calc(100vw - 20px) !important;
+        max-height: calc(100vh - 120px) !important;
+        max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 120px) !important;
+        border-radius: 16px !important;
+        transform: translateY(100vh) !important;
+        border: 1px solid #336C4D !important;
         margin: 0 !important;
         padding: 0 !important;
         padding-top: env(safe-area-inset-top) !important;
         padding-bottom: env(safe-area-inset-bottom) !important;
-        box-shadow: none !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
         z-index: 2147483646 !important;
         background: transparent !important;
         backdrop-filter: none !important;
@@ -318,26 +318,24 @@
       }
 
       .gewurz-widget-container .gewurz-chat-iframe {
-        width: calc(100vw - 20px) !important;
-        height: calc(100vh - 40px) !important;
-        height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 40px) !important;
-        max-width: calc(100vw - 20px) !important;
-        max-height: calc(100vh - 40px) !important;
-        max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 40px) !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
         border: none !important;
-        border-radius: 20px !important;
-        margin: 10px !important;
+        border-radius: 16px !important;
+        margin: 0 !important;
         padding: 0 !important;
-        position: absolute !important;
-        top: calc(env(safe-area-inset-top) + 10px) !important;
-        left: 10px !important;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+        position: static !important;
+        top: auto !important;
+        left: auto !important;
+        box-shadow: none !important;
       }
 
       .gewurz-widget-container .gewurz-chat-header {
         position: absolute !important;
-        top: calc(env(safe-area-inset-top) + 20px) !important;
-        right: 20px !important;
+        top: calc(env(safe-area-inset-top) + 10px) !important;
+        right: 10px !important;
         z-index: 2147483648 !important;
         background: rgba(0, 0, 0, 0.3) !important;
         border-radius: 50% !important;
@@ -350,14 +348,13 @@
 
       .gewurz-widget-container .gewurz-spinner-overlay {
         position: absolute !important;
-        top: calc(env(safe-area-inset-top) + 10px) !important;
-        left: 10px !important;
-        right: auto !important;
-        bottom: auto !important;
-        width: calc(100vw - 20px) !important;
-        height: calc(100vh - 40px) !important;
-        height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 40px) !important;
-        border-radius: 20px !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 16px !important;
         background: rgba(0, 56, 54, 0.9) !important;
         display: flex !important;
         align-items: center !important;
