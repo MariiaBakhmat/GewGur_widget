@@ -358,10 +358,6 @@
 
     /* Додаткові мобільні стилі для дуже маленьких екранів */
     @media screen and (max-width: 480px) {
-      .gewurz-widget-container .gewurz-chat-modal {
-        background: rgba(12, 12, 30, 0.9) !important;
-      }
-      
       .gewurz-widget-container .gewurz-chat-iframe {
         width: calc(100vw - 16px) !important;
         height: calc(100vh - 32px) !important;
@@ -444,7 +440,7 @@
     </div>
   `;
 
-  // Клас віджета (без змін)
+  // Клас віджета
   class GewurzWidget {
     constructor() {
       this.isOpen = false;
@@ -514,31 +510,10 @@
         this.chatIframe.src = CONFIG.chatUrl;
         
         this.chatIframe.onload = () => {
-          // Додаємо стилі для мобільних після завантаження iframe
-          this.injectMobileStyles();
           this.checkForContent();
         };
         
         this.isLoaded = true;
-      }
-    }
-
-    injectMobileStyles() {
-      try {
-        if (window.innerWidth <= 768) {
-          const iframeDoc = this.chatIframe.contentDocument || this.chatIframe.contentWindow.document;
-          const style = iframeDoc.createElement('style');
-          style.textContent = `
-            .chat-history {
-              background-color: rgba(0, 102, 99, 0.8) !important;
-              background: rgba(0, 102, 99, 0.8) !important;
-            }
-          `;
-          iframeDoc.head.appendChild(style);
-        }
-      } catch (error) {
-        // Ігноруємо CORS помилки
-        console.log('Cannot inject styles due to CORS');
       }
     }
 
