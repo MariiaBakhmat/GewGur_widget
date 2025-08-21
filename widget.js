@@ -589,12 +589,12 @@
         background: transparent !important;
       `;
       
-      // Позиціонуємо кнопку відносно чату
+      // Позиціонуємо кнопку відносно чату - зміщуємо лівіше
       const button = this.chatButton;
       button.style.cssText = `
         position: fixed !important;
         bottom: 40px !important;
-        right: 40px !important;
+        left: 40px !important;
         width: 72px !important;
         height: 72px !important;
         z-index: 2147483647 !important;
