@@ -138,7 +138,7 @@
 
     .gewurz-widget-container .gewurz-chat-modal {
       position: fixed !important;
-      bottom: 100px !important;
+      bottom: 80px !important;
       right: 20px !important;
       width: 400px !important;
       height: 522px !important;
@@ -293,7 +293,7 @@
         top: 20px !important;
         left: 10px !important;
         right: 10px !important;
-        bottom: 100px !important;
+        bottom: 80px !important;
         width: calc(100vw - 20px) !important;
         height: calc(100vh - 120px) !important;
         height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 120px) !important;
@@ -696,3 +696,4 @@
   }
 
 })();
+
