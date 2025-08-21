@@ -230,6 +230,8 @@
       z-index: 5 !important;
       margin: 0 !important;
       padding: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
     }
 
     .gewurz-widget-container .gewurz-spinner {
@@ -345,14 +347,24 @@
       }
 
       .gewurz-widget-container .gewurz-spinner-overlay {
-        border-radius: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;
-        top: 0 !important;
-        left: 0 !important;
-        padding-top: env(safe-area-inset-top) !important;
-        padding-bottom: env(safe-area-inset-bottom) !important;
+        position: absolute !important;
+        top: calc(env(safe-area-inset-top) + 10px) !important;
+        left: 10px !important;
+        right: auto !important;
+        bottom: auto !important;
+        width: calc(100vw - 20px) !important;
+        height: calc(100vh - 40px) !important;
+        height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 40px) !important;
+        border-radius: 20px !important;
+        background: rgba(0, 56, 54, 0.9) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        backdrop-filter: blur(8px) !important;
+        -webkit-backdrop-filter: blur(8px) !important;
+        z-index: 10 !important;
+        margin: 0 !important;
+        padding: 0 !important;
       }
     }
 
@@ -367,6 +379,15 @@
         left: 8px !important;
         border-radius: 16px !important;
       }
+
+      .gewurz-widget-container .gewurz-spinner-overlay {
+        top: calc(env(safe-area-inset-top) + 8px) !important;
+        left: 8px !important;
+        width: calc(100vw - 16px) !important;
+        height: calc(100vh - 32px) !important;
+        height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 32px) !important;
+        border-radius: 16px !important;
+      }
     }
 
     /* Стилі для старих браузерів що не підтримують dvh */
@@ -378,12 +399,12 @@
         }
         
         .gewurz-widget-container .gewurz-chat-iframe {
-          height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
-          max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+          height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 40px) !important;
+          max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 40px) !important;
         }
         
         .gewurz-widget-container .gewurz-spinner-overlay {
-          height: 100vh !important;
+          height: calc(100vh - 40px) !important;
         }
       }
     }
