@@ -550,17 +550,17 @@
     applyMobileStyles() {
       const modal = this.chatModal;
       
-      // Застосовуємо стилі прямо через JavaScript - збільшуємо відступ знизу
+      // Застосовуємо стилі прямо через JavaScript - ще більше місця для кнопки
       modal.style.cssText = `
         position: fixed !important;
         top: 40px !important;
         left: 20px !important;
         right: 20px !important;
-        bottom: 140px !important;
+        bottom: 160px !important;
         width: calc(100vw - 40px) !important;
-        height: calc(100vh - 180px) !important;
+        height: calc(100vh - 200px) !important;
         max-width: calc(100vw - 40px) !important;
-        max-height: calc(100vh - 180px) !important;
+        max-height: calc(100vh - 200px) !important;
         border-radius: 16px !important;
         border: 1px solid #336C4D !important;
         transform: translateY(0) !important;
@@ -589,9 +589,7 @@
         background: transparent !important;
       `;
       
-      // Кнопка залишається в стандартній позиції - НЕ перезаписуємо її стилі
-      
-      console.log('Mobile styles applied - button stays in original position');
+      console.log('Mobile styles applied - more space for button');
     }
 
     closeChat() {
