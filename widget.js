@@ -552,11 +552,11 @@
         top: 20px !important;
         left: 10px !important;
         right: 10px !important;
-        bottom: 100px !important;
+        bottom: 150px !important;
         width: calc(100vw - 20px) !important;
-        height: calc(100vh - 120px) !important;
+        height: calc(100vh - 170px) !important;
         max-width: calc(100vw - 20px) !important;
-        max-height: calc(100vh - 120px) !important;
+        max-height: calc(100vh - 170px) !important;
         border-radius: 16px !important;
         border: 1px solid #336C4D !important;
         transform: translateY(0) !important;
