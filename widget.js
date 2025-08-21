@@ -546,17 +546,17 @@
     applyMobileStyles() {
       const modal = this.chatModal;
       
-      // Застосовуємо стилі прямо через JavaScript
+      // Застосовуємо стилі прямо через JavaScript - робимо чат значно меншим
       modal.style.cssText = `
         position: fixed !important;
-        top: 20px !important;
-        left: 10px !important;
-        right: 10px !important;
-        bottom: 150px !important;
-        width: calc(100vw - 20px) !important;
-        height: calc(100vh - 170px) !important;
-        max-width: calc(100vw - 20px) !important;
-        max-height: calc(100vh - 170px) !important;
+        top: 40px !important;
+        left: 20px !important;
+        right: 20px !important;
+        bottom: 180px !important;
+        width: calc(100vw - 40px) !important;
+        height: calc(100vh - 220px) !important;
+        max-width: calc(100vw - 40px) !important;
+        max-height: calc(100vh - 220px) !important;
         border-radius: 16px !important;
         border: 1px solid #336C4D !important;
         transform: translateY(0) !important;
@@ -571,7 +571,7 @@
         padding: 0 !important;
       `;
       
-      // Стилі для iframe - без border-radius щоб уникнути білих країв
+      // Стилі для iframe
       const iframe = this.chatIframe;
       iframe.style.cssText = `
         width: 100% !important;
@@ -585,7 +585,7 @@
         background: transparent !important;
       `;
       
-      console.log('Mobile styles applied');
+      console.log('Mobile styles applied - compact version');
     }
 
     closeChat() {
