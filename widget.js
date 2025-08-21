@@ -139,48 +139,6 @@
       background: linear-gradient(135deg, #003836, #004240);
     }
 
-    .skeleton-header {
-      height: 60px;
-      background: rgba(219, 197, 157, 0.1);
-      border-radius: 8px;
-      margin-bottom: 15px;
-      animation: gewurz-pulse-skeleton 1.5s infinite;
-    }
-
-    .skeleton-message-bot {
-      height: 40px;
-      background: rgba(219, 197, 157, 0.1);
-      border-radius: 20px;
-      width: 70%;
-      margin-bottom: 10px;
-      animation: gewurz-pulse-skeleton 1.5s infinite;
-    }
-
-    .skeleton-message-user {
-      height: 40px;
-      background: rgba(234, 224, 181, 0.3);
-      border-radius: 20px;
-      width: 50%;
-      margin-left: auto;
-      margin-bottom: 10px;
-      animation: gewurz-pulse-skeleton 1.5s infinite;
-    }
-
-    .skeleton-input {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      right: 20px;
-      height: 40px;
-      background: rgba(234, 224, 181, 0.2);
-      border-radius: 25px;
-      animation: gewurz-pulse-skeleton 1.5s infinite;
-    }
-
-    @keyframes gewurz-pulse-skeleton {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.6; }
-    }
 
     @keyframes gewurz-pulse {
       0%, 100% { transform: scale(1); }
@@ -297,8 +255,13 @@
 
       this.bindEvents();
       this.scheduleNotification();
-    }
+      {
+    if (event.data.type === 'chat-loaded') {
 
+    }
+  });
+}
+  
     bindEvents() {
       this.chatButton.addEventListener('click', () => this.toggleChat());
       this.closeButton.addEventListener('click', () => this.closeChat());
@@ -399,3 +362,4 @@
   }
 
 })();
+
