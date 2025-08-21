@@ -82,8 +82,8 @@
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      width: 41px !important;
-      height: 41px !important;
+      width: 60px !important;
+      height: 60px !important;
       border-radius: 50% !important;
       background: transparent !important;
       border: none !important;
@@ -109,8 +109,8 @@
     }
 
     .gewurz-widget-container .gewurz-chat-button img {
-      width: 41px !important;
-      height: 41px !important;
+      width: 60px !important;
+      height: 60px !important;
       border-radius: 50% !important;
       object-fit: cover !important;
       background: transparent !important;
