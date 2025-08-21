@@ -1,25 +1,22 @@
-// Gewürz Guru Chat Widget v1.0
-// Точно по дизайну з Фігми
+
 (function() {
   'use strict';
   
-
   if (window.GewurzChatLoaded) return;
   window.GewurzChatLoaded = true;
 
-  const CONFIG = {
-    
-    chatUrl:'https://mariiabakhmat.github.io/GewGur_widget/chat.html',
-    
 
+  const CONFIG = {
+  
+    chatUrl: 'https://mariiabakhmat.github.io/GewGur_widget/chat.html',
+    
     iconUrl: 'https://github.com/MariiaBakhmat/GewGur_widget/raw/main/Group%20112.webp',
     
- 
-    showNotificationAfter: 8000, // показати червону крапку через 8 сек
-    position: 'bottom-right'      // позиція віджета
+    showNotificationAfter: 8000, 
+    position: 'bottom-right'      
   };
 
-  // CSS стилі - точно по Фігмі
+
   const CSS = `
     .gewurz-widget {
       position: fixed;
@@ -33,8 +30,8 @@
       width: 41px;
       height: 41px;
       border-radius: 50%;
-      background: #FFFFFF;
-      border: 1.76px solid #336C4D;
+      background: transparent;
+      border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -51,8 +48,8 @@
     }
 
     .gewurz-chat-button img {
-      width: 32px;
-      height: 32px;
+      width: 41px;
+      height: 41px;
       border-radius: 50%;
       object-fit: cover;
       background: transparent;
@@ -82,7 +79,7 @@
       height: 522px;
       background: transparent;
       border: 1.76px solid #336C4D;
-      border-radius: 0px;
+      border-radius: 16px;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
       transform: scale(0.8) translateY(20px);
       opacity: 0;
@@ -184,8 +181,8 @@
       }
 
       .gewurz-chat-button img {
-        width: 60px;
-        height: 60px;
+        width: 72px;
+        height: 72px;
       }
 
       .gewurz-chat-modal {
@@ -364,6 +361,3 @@
   }
 
 })();
-
-
-
