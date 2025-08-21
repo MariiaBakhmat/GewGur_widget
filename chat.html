@@ -328,9 +328,16 @@
         } else {
           appendMessage("bot", "Hey! Ich bin der Gewürz Guru — dein Helfer beim Einkaufen. Ich bin noch neu hier, aber ich kann dir schon jetzt helfen, den richtigen Tee oder das perfekte Gewürz zu finden!");
         }
+        
+        // Повідомляємо віджет що контент завантажився
+        window.parent.postMessage({type: 'chat-loaded'}, '*');
+        
       } catch (e) {
         console.error("memory error", e);
         appendMessage("bot", "Hey! Ich bin der Gewürz Guru — dein Helfer beim Einkaufen. Ich bin noch neu hier, aber ich kann dir schon jetzt helfen, den richtigen Tee oder das perfekte Gewürz zu finden!");
+        
+        // І тут теж повідомляємо навіть якщо помилка
+        window.parent.postMessage({type: 'chat-loaded'}, '*');
       }
     }
 
@@ -376,11 +383,10 @@
       }
     });
 
-    // Завантажуємо історію відразу при завантаженні DOM
+    // Завантажуємо історію при завантаженні DOM
     document.addEventListener('DOMContentLoaded', function() {
       loadHistory();
     });
   </script>
 </body>
 </html>
-
