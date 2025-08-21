@@ -53,8 +53,8 @@
 
     .gewurz-widget-container {
       position: fixed !important;
-      bottom: 20px !important;
-      left: 20px !important;
+      bottom: 60px !important;
+      right: 125px !important;
       z-index: 2147483647 !important;
       font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif !important;
       font-size: 14px !important;
@@ -74,7 +74,7 @@
       overflow: visible !important;
       transform: none !important;
       top: auto !important;
-      right: auto !important;
+      left: auto !important;
     }
 
     .gewurz-widget-container .gewurz-chat-button {
@@ -265,9 +265,10 @@
     /* Мобільна версія з врахуванням safe area */
     @media screen and (max-width: 768px) {
       .gewurz-widget-container {
-        bottom: 220px !important;
-        right: 16px !important;
-        z-index: 2147483648 !important;
+        bottom: 90px !important;
+        right: 10px !important;
+        left: auto !important;
+        z-index: 2147483647 !important;
       }
 
       .gewurz-widget-container .gewurz-chat-button {
