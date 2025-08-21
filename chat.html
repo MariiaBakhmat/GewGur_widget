@@ -390,10 +390,10 @@
           body: JSON.stringify({ sessionId, chatInput: message }),
         });
         const data = await res.json();
-        appendMessage("bot", data.text || "[Hoppla, da ist etwas schiefgelaufen...]");
+        appendMessage("bot", data.text || "[Hoppla, da ist etwas schiefgelaufen. Bitte versuche es später erneut oder wende dich an den Support.]");
       } catch (e) {
         console.error(e);
-        appendMessage("bot", "[Hoppla, da ist etwas schiefgelaufen...]");
+        appendMessage("bot", "[Hoppla, da ist etwas schiefgelaufen. Bitte versuche es später erneut oder wende dich an den Support.]");
       } finally {
         if (loaderBubble) loaderBubble.remove();
         isWaitingForResponse = false;
@@ -419,3 +419,4 @@
   </script>
 </body>
 </html>
+
