@@ -10,7 +10,7 @@
 
   <style>
     html, body {
-      background: #0c0c1e;
+      background: transparent;
       margin: 0;
       padding: 0;
       height: 100vh;
@@ -376,8 +376,10 @@
       }
     });
 
-    window.onload = loadHistory;
+    // Завантажуємо історію відразу при завантаженні DOM
+    document.addEventListener('DOMContentLoaded', function() {
+      loadHistory();
+    });
   </script>
 </body>
 </html>
-
