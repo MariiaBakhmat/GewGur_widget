@@ -409,8 +409,9 @@
     }
   `;
 
-  // Додаємо стилі в head
+  // Додаємо стилі в head з timestamp для уникнення кешування
   const styleEl = document.createElement('style');
+  styleEl.id = 'gewurz-widget-styles-' + Date.now();
   styleEl.textContent = CSS;
   document.head.appendChild(styleEl);
 
@@ -525,6 +526,11 @@
       this.chatModal.classList.add('open');
       this.hideNotification();
       
+      // Динамічно застосовуємо мобільні стилі через JavaScript
+      if (window.innerWidth <= 768) {
+        this.applyMobileStyles();
+      }
+      
       if (!this.isLoaded) {
         this.showSpinner();
         this.chatIframe.src = CONFIG.chatUrl;
@@ -537,9 +543,59 @@
       }
     }
 
+    applyMobileStyles() {
+      const modal = this.chatModal;
+      
+      // Застосовуємо стилі прямо через JavaScript
+      modal.style.cssText = `
+        position: fixed !important;
+        top: 20px !important;
+        left: 10px !important;
+        right: 10px !important;
+        bottom: 100px !important;
+        width: calc(100vw - 20px) !important;
+        height: calc(100vh - 120px) !important;
+        max-width: calc(100vw - 20px) !important;
+        max-height: calc(100vh - 120px) !important;
+        border-radius: 16px !important;
+        border: 1px solid #336C4D !important;
+        transform: translateY(0) !important;
+        opacity: 1 !important;
+        transition: all 0.3s ease !important;
+        overflow: hidden !important;
+        display: block !important;
+        z-index: 2147483646 !important;
+        background: transparent !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      `;
+      
+      // Стилі для iframe
+      const iframe = this.chatIframe;
+      iframe.style.cssText = `
+        width: 100% !important;
+        height: 100% !important;
+        border: none !important;
+        border-radius: 16px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: static !important;
+        display: block !important;
+      `;
+      
+      console.log('Mobile styles applied');
+    }
+
     closeChat() {
       this.isOpen = false;
       this.chatModal.classList.remove('open');
+      
+      // Скидаємо inline стилі
+      if (window.innerWidth <= 768) {
+        this.chatModal.style.cssText = '';
+        this.chatIframe.style.cssText = '';
+      }
     }
 
     showSpinner() {
