@@ -3,19 +3,18 @@
 (function() {
   'use strict';
   
-  // Перевірка чи віджет вже завантажений
+
   if (window.GewurzChatLoaded) return;
   window.GewurzChatLoaded = true;
 
-  // КОНФІГУРАЦІЯ - змінюйте тут параметри
   const CONFIG = {
-    // URL вашого чату (ЗАМІНІТЬ НА АКТУАЛЬНИЙ!)
+    
     chatUrl:'https://mariiabakhmat.github.io/GewGur_widget/chat.html',
     
-    // URL іконки кнопки
+
     iconUrl: 'https://github.com/MariiaBakhmat/GewGur_widget/raw/main/Group%20112.webp',
     
-    // Поведінка
+ 
     showNotificationAfter: 8000, // показати червону крапку через 8 сек
     position: 'bottom-right'      // позиція віджета
   };
@@ -365,5 +364,6 @@
   }
 
 })();
+
 
 
