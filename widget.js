@@ -536,7 +536,11 @@
         this.chatIframe.src = CONFIG.chatUrl;
         
         this.chatIframe.onload = () => {
-          this.checkForContent();
+          // Просто ховаємо спіннер після завантаження iframe
+          // Покладаємося на postMessage від чату
+          setTimeout(() => {
+            this.hideSpinner();
+          }, 2000); // 2 секунди після завантаження iframe
         };
         
         this.isLoaded = true;
@@ -661,44 +665,6 @@
       const spinnerOverlay = document.getElementById('gewurz-spinner-overlay');
       if (spinnerOverlay) {
         spinnerOverlay.remove();
-      }
-    }
-
-    checkForContent() {
-      this.contentCheckAttempts++;
-      
-      try {
-        const iframeDoc = this.chatIframe.contentDocument || this.chatIframe.contentWindow.document;
-        const messages = iframeDoc.querySelector('.message-container');
-        const chatHistory = iframeDoc.querySelector('#chat-history');
-        
-        if (messages || (chatHistory && chatHistory.children.length > 0)) {
-          console.log('Chat content found, hiding spinner');
-          this.hideSpinner();
-          return;
-        }
-        
-        if (this.contentCheckAttempts >= this.maxContentCheckAttempts) {
-          console.log('Max attempts reached, hiding spinner anyway');
-          this.hideSpinner();
-          return;
-        }
-        
-        setTimeout(() => {
-          this.checkForContent();
-        }, 500);
-        
-      } catch (error) {
-        console.log('Cannot access iframe content, attempt', this.contentCheckAttempts);
-        
-        if (this.contentCheckAttempts >= this.maxContentCheckAttempts) {
-          this.hideSpinner();
-          return;
-        }
-        
-        setTimeout(() => {
-          this.checkForContent();
-        }, 500);
       }
     }
 
