@@ -571,17 +571,18 @@
         padding: 0 !important;
       `;
       
-      // Стилі для iframe
+      // Стилі для iframe - без border-radius щоб уникнути білих країв
       const iframe = this.chatIframe;
       iframe.style.cssText = `
         width: 100% !important;
         height: 100% !important;
         border: none !important;
-        border-radius: 16px !important;
+        border-radius: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
         position: static !important;
         display: block !important;
+        background: transparent !important;
       `;
       
       console.log('Mobile styles applied');
