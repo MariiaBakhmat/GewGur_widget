@@ -1,207 +1,267 @@
-
 (function() {
   'use strict';
-  
   
   if (window.GewurzChatLoaded) return;
   window.GewurzChatLoaded = true;
 
- 
   const CONFIG = {
-    // URL вашого чату
     chatUrl: 'https://mariiabakhmat.github.io/GewGur_widget/chat.html',
-    
-    
     iconUrl: 'https://github.com/MariiaBakhmat/GewGur_widget/raw/main/Group%20112.webp',
-  
-    showNotificationAfter: 0, // показати червону крапку через 0 сек (вимкнено)
-    position: 'bottom-right'      // позиція віджета
+    showNotificationAfter: 0,
+    position: 'bottom-right'
   };
 
-  // CSS стилі - точно по Фігмі
+  // CSS стилі з повною ізоляцією через батьківський клас
   const CSS = `
-    .gewurz-widget {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 2147483647;
-      font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* Сброс стилів для віджета */
+    .gewurz-widget-container * {
+      box-sizing: border-box !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      outline: none !important;
+      background: none !important;
+      font-family: inherit !important;
+      font-size: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+      color: inherit !important;
+      text-decoration: none !important;
+      list-style: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: block !important;
+      position: static !important;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      width: auto !important;
+      height: auto !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+      max-width: none !important;
+      max-height: none !important;
+      overflow: visible !important;
+      z-index: auto !important;
     }
 
-    .gewurz-chat-button {
-      width: 41px;
-      height: 41px;
-      border-radius: 50%;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: none;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
+    .gewurz-widget-container {
+      position: fixed !important;
+      bottom: 20px !important;
+      right: 20px !important;
+      z-index: 2147483647 !important;
+      font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif !important;
+      font-size: 14px !important;
+      line-height: 1.4 !important;
+      color: #333 !important;
+      direction: ltr !important;
+      text-align: left !important;
     }
 
-    .gewurz-chat-button:hover {
-      transform: scale(1.05);
+    .gewurz-widget-container .gewurz-chat-button {
+      position: relative !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 41px !important;
+      height: 41px !important;
+      border-radius: 50% !important;
+      background: transparent !important;
+      border: none !important;
+      cursor: pointer !important;
+      box-shadow: none !important;
+      transition: all 0.3s ease !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+      margin: 0 !important;
     }
 
-    .gewurz-chat-button img {
-      width: 41px;
-      height: 41px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: transparent;
+    .gewurz-widget-container .gewurz-chat-button:hover {
+      transform: scale(1.05) !important;
     }
 
-    .gewurz-notification-dot {
-      position: absolute;
-      top: -2px;
-      right: -2px;
-      width: 16px;
-      height: 16px;
-      background: #ff4757;
-      border-radius: 50%;
-      transform: scale(0);
-      transition: transform 0.3s ease;
+    .gewurz-widget-container .gewurz-chat-button img {
+      width: 41px !important;
+      height: 41px !important;
+      border-radius: 50% !important;
+      object-fit: cover !important;
+      background: transparent !important;
+      display: block !important;
+      border: none !important;
+      outline: none !important;
     }
 
-    .gewurz-notification-dot.show {
-      transform: scale(1);
+    .gewurz-widget-container .gewurz-notification-dot {
+      position: absolute !important;
+      top: -2px !important;
+      right: -2px !important;
+      width: 16px !important;
+      height: 16px !important;
+      background: #ff4757 !important;
+      border-radius: 50% !important;
+      transform: scale(0) !important;
+      transition: transform 0.3s ease !important;
+      display: block !important;
     }
 
-    .gewurz-chat-modal {
-      position: fixed;
-      bottom: 100px;
-      right: 20px;
-      width: 400px;
-      height: 522px;
-      background: transparent;
-      border: 1.76px solid #336C4D;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-      transform: scale(0.8) translateY(20px);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      overflow: hidden;
+    .gewurz-widget-container .gewurz-notification-dot.show {
+      transform: scale(1) !important;
     }
 
-    .gewurz-chat-modal.open {
-      transform: scale(1) translateY(0);
-      opacity: 1;
+    .gewurz-widget-container .gewurz-chat-modal {
+      position: fixed !important;
+      bottom: 100px !important;
+      right: 20px !important;
+      width: 400px !important;
+      height: 522px !important;
+      background: transparent !important;
+      border: 1.76px solid #336C4D !important;
+      border-radius: 16px !important;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+      transform: scale(0.8) translateY(20px) !important;
+      opacity: 0 !important;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+      overflow: hidden !important;
+      display: block !important;
+      z-index: 2147483647 !important;
     }
 
-    .gewurz-chat-header {
-      background: transparent;
-      color: #FFFFFF;
-      padding: 0;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-start;
-      height: 40px;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 10;
+    .gewurz-widget-container .gewurz-chat-modal.open {
+      transform: scale(1) translateY(0) !important;
+      opacity: 1 !important;
     }
 
-    .gewurz-chat-header h3 {
-      display: none;
+    .gewurz-widget-container .gewurz-chat-header {
+      position: absolute !important;
+      top: 10px !important;
+      right: 10px !important;
+      background: transparent !important;
+      color: #FFFFFF !important;
+      padding: 0 !important;
+      display: flex !important;
+      justify-content: flex-end !important;
+      align-items: flex-start !important;
+      height: 40px !important;
+      z-index: 10 !important;
+      margin: 0 !important;
+      border: none !important;
     }
 
-    .gewurz-close-button {
-      background: none;
-      border: none;
-      color: #FFFFFF;
-      font-size: 20px;
-      cursor: pointer;
-      padding: 0;
-      border-radius: 0;
-      width: 34px;
-      height: 29px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.2s;
-      font-weight: normal;
+    .gewurz-widget-container .gewurz-chat-header h3 {
+      display: none !important;
     }
 
-    .gewurz-close-button:hover {
-      opacity: 0.8;
+    .gewurz-widget-container .gewurz-close-button {
+      position: static !important;
+      background: none !important;
+      border: none !important;
+      color: #FFFFFF !important;
+      font-size: 20px !important;
+      cursor: pointer !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      width: 34px !important;
+      height: 29px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: opacity 0.2s !important;
+      font-weight: normal !important;
+      margin: 0 !important;
+      outline: none !important;
+      font-family: inherit !important;
     }
 
-    .gewurz-chat-iframe {
-      width: 100%;
-      height: 522px;
-      border: none;
-      background: transparent;
+    .gewurz-widget-container .gewurz-close-button:hover {
+      opacity: 0.8 !important;
     }
 
-    .gewurz-spinner-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 56, 54, 0.8);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 16px;
-      z-index: 5;
+    .gewurz-widget-container .gewurz-chat-iframe {
+      position: static !important;
+      width: 100% !important;
+      height: 522px !important;
+      border: none !important;
+      background: transparent !important;
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
 
-    .gewurz-spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(219, 197, 157, 0.3);
-      border-top: 3px solid #DBC59D;
-      border-radius: 50%;
-      animation: gewurz-spin 1s linear infinite;
+    .gewurz-widget-container .gewurz-spinner-overlay {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: rgba(0, 56, 54, 0.8) !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+      border-radius: 16px !important;
+      z-index: 5 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .gewurz-widget-container .gewurz-spinner {
+      width: 40px !important;
+      height: 40px !important;
+      border: 3px solid rgba(219, 197, 157, 0.3) !important;
+      border-top: 3px solid #DBC59D !important;
+      border-radius: 50% !important;
+      animation: gewurz-spin 1s linear infinite !important;
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      background: transparent !important;
     }
 
     @keyframes gewurz-spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% { transform: rotate(0deg) !important; }
+      100% { transform: rotate(360deg) !important; }
     }
 
     @keyframes gewurz-pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      0%, 100% { transform: scale(1) !important; }
+      50% { transform: scale(1.05) !important; }
     }
 
-    .gewurz-pulse {
-      animation: gewurz-pulse 1s ease-in-out 3;
+    .gewurz-widget-container .gewurz-pulse {
+      animation: gewurz-pulse 1s ease-in-out 3 !important;
     }
 
-    /* Мобільна версія - точно по Фігмі */
+    /* Мобільна версія */
     @media (max-width: 768px) {
-      .gewurz-widget {
-        bottom: 16px;
-        right: 16px;
+      .gewurz-widget-container {
+        bottom: 16px !important;
+        right: 16px !important;
       }
 
-      .gewurz-chat-button {
-        width: 72px;
-        height: 72px;
+      .gewurz-widget-container .gewurz-chat-button {
+        width: 72px !important;
+        height: 72px !important;
       }
 
-      .gewurz-chat-button img {
-        width: 72px;
-        height: 72px;
+      .gewurz-widget-container .gewurz-chat-button img {
+        width: 72px !important;
+        height: 72px !important;
       }
 
-      .gewurz-close-button {
-        width: 7px;
-        height: 4px;
-        font-size: 12px;
+      .gewurz-widget-container .gewurz-close-button {
+        width: 7px !important;
+        height: 4px !important;
+        font-size: 12px !important;
       }
 
-      .gewurz-chat-modal {
+      .gewurz-widget-container .gewurz-chat-modal {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
@@ -210,20 +270,20 @@
         width: 100vw !important;
         height: 100vh !important;
         border-radius: 0 !important;
-        transform: translateY(100%);
+        transform: translateY(100%) !important;
         border: none !important;
       }
 
-      .gewurz-chat-modal.open {
-        transform: translateY(0);
+      .gewurz-widget-container .gewurz-chat-modal.open {
+        transform: translateY(0) !important;
       }
 
-      .gewurz-chat-iframe {
-        height: 100vh;
+      .gewurz-widget-container .gewurz-chat-iframe {
+        height: 100vh !important;
       }
 
-      .gewurz-spinner-overlay {
-        border-radius: 0;
+      .gewurz-widget-container .gewurz-spinner-overlay {
+        border-radius: 0 !important;
       }
     }
   `;
@@ -241,9 +301,9 @@
     document.head.appendChild(fontLink);
   }
 
-  // HTML віджета
+  // HTML віджета з батьківським контейнером
   const widgetHTML = `
-    <div class="gewurz-widget">
+    <div class="gewurz-widget-container">
       <div class="gewurz-chat-modal" id="gewurz-chat-modal">
         <div class="gewurz-chat-header">
           <button class="gewurz-close-button" id="gewurz-close-chat">✕</button>
@@ -265,13 +325,13 @@
     </div>
   `;
 
-  // Клас віджета
+  // Клас віджета (без змін)
   class GewurzWidget {
     constructor() {
       this.isOpen = false;
       this.isLoaded = false;
       this.contentCheckAttempts = 0;
-      this.maxContentCheckAttempts = 20; // 10 секунд максимум
+      this.maxContentCheckAttempts = 20;
       this.initWidget();
     }
 
@@ -291,7 +351,7 @@
       this.bindEvents();
       this.scheduleNotification();
       
-      // Слухаємо повідомлення від чату (запасний варіант)
+      // Слухаємо повідомлення від чату
       window.addEventListener('message', (event) => {
         if (event.data.type === 'chat-loaded') {
           this.hideSpinner();
@@ -331,15 +391,10 @@
       this.hideNotification();
       
       if (!this.isLoaded) {
-        // Показуємо спіннер поза iframe
         this.showSpinner();
-        
-        // Завантажуємо чат
         this.chatIframe.src = CONFIG.chatUrl;
         
-        // Додаємо обробник onload для iframe
         this.chatIframe.onload = () => {
-          // Починаємо перевіряти контент після завантаження iframe
           this.checkForContent();
         };
         
@@ -353,7 +408,6 @@
     }
 
     showSpinner() {
-      // Створюємо спіннер overlay
       const spinnerOverlay = document.createElement('div');
       spinnerOverlay.className = 'gewurz-spinner-overlay';
       spinnerOverlay.id = 'gewurz-spinner-overlay';
@@ -376,34 +430,27 @@
       this.contentCheckAttempts++;
       
       try {
-        // Спробуємо доступитися до контенту iframe
         const iframeDoc = this.chatIframe.contentDocument || this.chatIframe.contentWindow.document;
-        
-        // Шукаємо повідомлення в чаті
         const messages = iframeDoc.querySelector('.message-container');
         const chatHistory = iframeDoc.querySelector('#chat-history');
         
-        // Якщо знайшли повідомлення або контент у чаті
         if (messages || (chatHistory && chatHistory.children.length > 0)) {
           console.log('Chat content found, hiding spinner');
           this.hideSpinner();
           return;
         }
         
-        // Якщо досягли максимальної кількості спроб
         if (this.contentCheckAttempts >= this.maxContentCheckAttempts) {
           console.log('Max attempts reached, hiding spinner anyway');
           this.hideSpinner();
           return;
         }
         
-        // Повторюємо перевірку через 500мс
         setTimeout(() => {
           this.checkForContent();
         }, 500);
         
       } catch (error) {
-        // Якщо не можемо доступитися до iframe (CORS, тощо)
         console.log('Cannot access iframe content, attempt', this.contentCheckAttempts);
         
         if (this.contentCheckAttempts >= this.maxContentCheckAttempts) {
@@ -411,7 +458,6 @@
           return;
         }
         
-        // Повторюємо перевірку
         setTimeout(() => {
           this.checkForContent();
         }, 500);
