@@ -303,7 +303,9 @@
         padding-bottom: env(safe-area-inset-bottom) !important;
         box-shadow: none !important;
         z-index: 2147483647 !important;
-        background: #0c0c1e !important;
+        background: rgba(12, 12, 30, 0.85) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
       }
 
       .gewurz-widget-container .gewurz-chat-modal.open {
@@ -312,25 +314,34 @@
       }
 
       .gewurz-widget-container .gewurz-chat-iframe {
-        width: 100vw !important;
-        height: 100vh !important;
-        height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
-        max-width: 100vw !important;
-        max-height: 100vh !important;
-        max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+        width: calc(100vw - 20px) !important;
+        height: calc(100vh - 40px) !important;
+        height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 40px) !important;
+        max-width: calc(100vw - 20px) !important;
+        max-height: calc(100vh - 40px) !important;
+        max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 40px) !important;
         border: none !important;
-        margin: 0 !important;
+        border-radius: 20px !important;
+        margin: 10px !important;
         padding: 0 !important;
         position: absolute !important;
-        top: env(safe-area-inset-top) !important;
-        left: 0 !important;
+        top: calc(env(safe-area-inset-top) + 10px) !important;
+        left: 10px !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
       }
 
       .gewurz-widget-container .gewurz-chat-header {
         position: absolute !important;
-        top: calc(env(safe-area-inset-top) + 10px) !important;
-        right: 10px !important;
+        top: calc(env(safe-area-inset-top) + 20px) !important;
+        right: 20px !important;
         z-index: 2147483648 !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+        border-radius: 50% !important;
+        width: 34px !important;
+        height: 34px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
       }
 
       .gewurz-widget-container .gewurz-spinner-overlay {
@@ -348,21 +359,17 @@
     /* Додаткові мобільні стилі для дуже маленьких екранів */
     @media screen and (max-width: 480px) {
       .gewurz-widget-container .gewurz-chat-modal {
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;
-        min-width: 100vw !important;
-        min-height: 100vh !important;
-        min-height: 100dvh !important;
+        background: rgba(12, 12, 30, 0.9) !important;
       }
       
       .gewurz-widget-container .gewurz-chat-iframe {
-        width: 100vw !important;
-        height: 100vh !important;
-        height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
-        min-width: 100vw !important;
-        min-height: 100vh !important;
-        min-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+        width: calc(100vw - 16px) !important;
+        height: calc(100vh - 32px) !important;
+        height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 32px) !important;
+        margin: 8px !important;
+        top: calc(env(safe-area-inset-top) + 8px) !important;
+        left: 8px !important;
+        border-radius: 16px !important;
       }
     }
 
