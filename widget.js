@@ -1,21 +1,19 @@
-// Gewürz Guru Chat Widget v1.0
-// Точно по дизайну з Фігми
+
 (function() {
   'use strict';
   
-  // Перевірка чи віджет вже завантажений
+  
   if (window.GewurzChatLoaded) return;
   window.GewurzChatLoaded = true;
 
-  // КОНФІГУРАЦІЯ - змінюйте тут параметри
+ 
   const CONFIG = {
     // URL вашого чату
     chatUrl: 'https://mariiabakhmat.github.io/GewGur_widget/chat.html',
     
-    // URL іконки кнопки
-    iconUrl: 'https://github.com/MariiaBakhmat/GewGur_widget/raw/main/Group%20112.webp',
     
-    // Поведінка
+    iconUrl: 'https://github.com/MariiaBakhmat/GewGur_widget/raw/main/Group%20112.webp',
+  
     showNotificationAfter: 0, // показати червону крапку через 0 сек (вимкнено)
     position: 'bottom-right'      // позиція віджета
   };
@@ -272,6 +270,8 @@
     constructor() {
       this.isOpen = false;
       this.isLoaded = false;
+      this.contentCheckAttempts = 0;
+      this.maxContentCheckAttempts = 20; // 10 секунд максимум
       this.initWidget();
     }
 
@@ -291,10 +291,9 @@
       this.bindEvents();
       this.scheduleNotification();
       
-      // Слухаємо повідомлення від чату
+      // Слухаємо повідомлення від чату (запасний варіант)
       window.addEventListener('message', (event) => {
         if (event.data.type === 'chat-loaded') {
-          // Видаляємо спіннер коли контент завантажився
           this.hideSpinner();
         }
       });
@@ -337,6 +336,13 @@
         
         // Завантажуємо чат
         this.chatIframe.src = CONFIG.chatUrl;
+        
+        // Додаємо обробник onload для iframe
+        this.chatIframe.onload = () => {
+          // Починаємо перевіряти контент після завантаження iframe
+          this.checkForContent();
+        };
+        
         this.isLoaded = true;
       }
     }
@@ -363,6 +369,52 @@
       const spinnerOverlay = document.getElementById('gewurz-spinner-overlay');
       if (spinnerOverlay) {
         spinnerOverlay.remove();
+      }
+    }
+
+    checkForContent() {
+      this.contentCheckAttempts++;
+      
+      try {
+        // Спробуємо доступитися до контенту iframe
+        const iframeDoc = this.chatIframe.contentDocument || this.chatIframe.contentWindow.document;
+        
+        // Шукаємо повідомлення в чаті
+        const messages = iframeDoc.querySelector('.message-container');
+        const chatHistory = iframeDoc.querySelector('#chat-history');
+        
+        // Якщо знайшли повідомлення або контент у чаті
+        if (messages || (chatHistory && chatHistory.children.length > 0)) {
+          console.log('Chat content found, hiding spinner');
+          this.hideSpinner();
+          return;
+        }
+        
+        // Якщо досягли максимальної кількості спроб
+        if (this.contentCheckAttempts >= this.maxContentCheckAttempts) {
+          console.log('Max attempts reached, hiding spinner anyway');
+          this.hideSpinner();
+          return;
+        }
+        
+        // Повторюємо перевірку через 500мс
+        setTimeout(() => {
+          this.checkForContent();
+        }, 500);
+        
+      } catch (error) {
+        // Якщо не можемо доступитися до iframe (CORS, тощо)
+        console.log('Cannot access iframe content, attempt', this.contentCheckAttempts);
+        
+        if (this.contentCheckAttempts >= this.maxContentCheckAttempts) {
+          this.hideSpinner();
+          return;
+        }
+        
+        // Повторюємо перевірку
+        setTimeout(() => {
+          this.checkForContent();
+        }, 500);
       }
     }
 
