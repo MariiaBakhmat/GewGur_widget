@@ -141,6 +141,31 @@
       background: transparent;
     }
 
+    .gewurz-spinner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 56, 54, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 16px;
+      z-index: 5;
+    }
+
+    .gewurz-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(219, 197, 157, 0.3);
+      border-top: 3px solid #DBC59D;
+      border-radius: 50%;
+      animation: gewurz-spin 1s linear infinite;
+    }
+
     @keyframes gewurz-spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
@@ -197,6 +222,10 @@
 
       .gewurz-chat-iframe {
         height: 100vh;
+      }
+
+      .gewurz-spinner-overlay {
+        border-radius: 0;
       }
     }
   `;
@@ -265,8 +294,8 @@
       // Слухаємо повідомлення від чату
       window.addEventListener('message', (event) => {
         if (event.data.type === 'chat-loaded') {
-          // Контент завантажився, спіннер автоматично зникне
-          console.log('Chat content loaded');
+          // Видаляємо спіннер коли контент завантажився
+          this.hideSpinner();
         }
       });
     }
@@ -303,27 +332,8 @@
       this.hideNotification();
       
       if (!this.isLoaded) {
-        // Показуємо спіннер з блюром
-        this.chatIframe.innerHTML = `
-          <div style="
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            background: rgba(0, 56, 54, 0.8);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-          ">
-            <div style="
-              width: 40px;
-              height: 40px;
-              border: 3px solid rgba(219, 197, 157, 0.3);
-              border-top: 3px solid #DBC59D;
-              border-radius: 50%;
-              animation: gewurz-spin 1s linear infinite;
-            "></div>
-          </div>
-        `;
+        // Показуємо спіннер поза iframe
+        this.showSpinner();
         
         // Завантажуємо чат
         this.chatIframe.src = CONFIG.chatUrl;
@@ -334,6 +344,26 @@
     closeChat() {
       this.isOpen = false;
       this.chatModal.classList.remove('open');
+    }
+
+    showSpinner() {
+      // Створюємо спіннер overlay
+      const spinnerOverlay = document.createElement('div');
+      spinnerOverlay.className = 'gewurz-spinner-overlay';
+      spinnerOverlay.id = 'gewurz-spinner-overlay';
+      
+      const spinner = document.createElement('div');
+      spinner.className = 'gewurz-spinner';
+      
+      spinnerOverlay.appendChild(spinner);
+      this.chatModal.appendChild(spinnerOverlay);
+    }
+
+    hideSpinner() {
+      const spinnerOverlay = document.getElementById('gewurz-spinner-overlay');
+      if (spinnerOverlay) {
+        spinnerOverlay.remove();
+      }
     }
 
     scheduleNotification() {
