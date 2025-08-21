@@ -62,10 +62,23 @@
       color: #333 !important;
       direction: ltr !important;
       text-align: left !important;
+      width: auto !important;
+      height: auto !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      background: none !important;
+      display: block !important;
+      float: none !important;
+      clear: none !important;
+      overflow: visible !important;
+      transform: none !important;
+      top: auto !important;
+      left: auto !important;
     }
 
     .gewurz-widget-container .gewurz-chat-button {
-      position: relative !important;
+      position: static !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
@@ -80,6 +93,14 @@
       overflow: hidden !important;
       padding: 0 !important;
       margin: 0 !important;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      transform: none !important;
+      float: none !important;
+      clear: none !important;
+      vertical-align: baseline !important;
     }
 
     .gewurz-widget-container .gewurz-chat-button:hover {
