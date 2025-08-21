@@ -550,17 +550,17 @@
     applyMobileStyles() {
       const modal = this.chatModal;
       
-      // Застосовуємо стилі прямо через JavaScript - робимо чат значно меншим
+      // Застосовуємо стилі прямо через JavaScript - збільшуємо відступ знизу
       modal.style.cssText = `
         position: fixed !important;
         top: 40px !important;
         left: 20px !important;
         right: 20px !important;
-        bottom: 120px !important;
+        bottom: 140px !important;
         width: calc(100vw - 40px) !important;
-        height: calc(100vh - 160px) !important;
+        height: calc(100vh - 180px) !important;
         max-width: calc(100vw - 40px) !important;
-        max-height: calc(100vh - 160px) !important;
+        max-height: calc(100vh - 180px) !important;
         border-radius: 16px !important;
         border: 1px solid #336C4D !important;
         transform: translateY(0) !important;
@@ -589,29 +589,9 @@
         background: transparent !important;
       `;
       
-      // Позиціонуємо кнопку відносно чату - зміщуємо лівіше
-      const button = this.chatButton;
-      button.style.cssText = `
-        position: fixed !important;
-        bottom: 40px !important;
-        left: 40px !important;
-        width: 72px !important;
-        height: 72px !important;
-        z-index: 2147483647 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        border-radius: 50% !important;
-        background: transparent !important;
-        border: none !important;
-        cursor: pointer !important;
-        transition: all 0.3s ease !important;
-        overflow: hidden !important;
-        padding: 0 !important;
-        margin: 0 !important;
-      `;
+      // Кнопка залишається в стандартній позиції - НЕ перезаписуємо її стилі
       
-      console.log('Mobile styles applied - compact version with repositioned button');
+      console.log('Mobile styles applied - button stays in original position');
     }
 
     closeChat() {
@@ -622,7 +602,7 @@
       if (window.innerWidth <= 768) {
         this.chatModal.style.cssText = '';
         this.chatIframe.style.cssText = '';
-        this.chatButton.style.cssText = '';
+        // НЕ скидаємо стилі кнопки, щоб вона залишалася в стандартній позиції
       }
     }
 
