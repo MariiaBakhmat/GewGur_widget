@@ -486,7 +486,7 @@
       this.bindEvents();
       this.scheduleNotification();
       
-      // Слухаємо повідомлення від чату
+      
       window.addEventListener('message', (event) => {
         if (event.data.type === 'chat-loaded') {
           this.hideSpinner();
@@ -524,7 +524,7 @@
       this.isOpen = true;
       this.chatModal.classList.add('open');
       this.hideNotification();
-      this.chatButton.style.zIndex = '2147483645';
+      this.chatButton.style.zIndex = 'none';
       
       if (window.innerWidth <= 768) {
         this.applyMobileStyles();
@@ -572,7 +572,7 @@
         padding: 0 !important;
       `;
       
-      // Стилі для iframe
+     
       const iframe = this.chatIframe;
       iframe.style.cssText = `
         width: 100% !important;
@@ -592,7 +592,7 @@
     closeChat() {
       this.isOpen = false;
       this.chatModal.classList.remove('open');
-       this.chatButton.style.zIndex = '2147483647';
+       this.chatButton.style.zIndex = 'flex';
       
       if (window.innerWidth <= 768) {
         this.chatModal.style.cssText = '';
@@ -691,5 +691,6 @@
   }
 
 })();
+
 
 
