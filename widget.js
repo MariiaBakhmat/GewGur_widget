@@ -11,7 +11,7 @@
     position: 'bottom-right'
   };
 
-  // CSS стилі з повною ізоляцією через батьківський клас
+
   const CSS = `
     /* Сброс стилів для віджета */
     .gewurz-widget-container * {
@@ -262,7 +262,7 @@
       animation: gewurz-pulse 1s ease-in-out 3 !important;
     }
 
-    /* Мобільна версія з врахуванням safe area */
+ 
     @media screen and (max-width: 768px) {
       .gewurz-widget-container {
         bottom: 90px !important;
@@ -369,7 +369,7 @@
       }
     }
 
-    /* Додаткові мобільні стилі для дуже маленьких екранів */
+ 
     @media screen and (max-width: 480px) {
       .gewurz-widget-container .gewurz-chat-iframe {
         width: calc(100vw - 16px) !important;
@@ -391,7 +391,7 @@
       }
     }
 
-    /* Стилі для старих браузерів що не підтримують dvh */
+  
     @supports not (height: 100dvh) {
       @media screen and (max-width: 768px) {
         .gewurz-widget-container .gewurz-chat-modal {
@@ -411,13 +411,13 @@
     }
   `;
 
-  // Додаємо стилі в head з timestamp для уникнення кешування
+
   const styleEl = document.createElement('style');
   styleEl.id = 'gewurz-widget-styles-' + Date.now();
   styleEl.textContent = CSS;
   document.head.appendChild(styleEl);
 
-  // Завантажуємо шрифти якщо їх немає
+ 
   if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
     const fontLink = document.createElement('link');
     fontLink.href = 'https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Lato:wght@300;400;700&display=swap';
@@ -425,7 +425,7 @@
     document.head.appendChild(fontLink);
   }
 
-  // Перевіряємо і додаємо правильний viewport meta для мобільних
+
   let viewportMeta = document.querySelector('meta[name="viewport"]');
   if (viewportMeta) {
     const currentContent = viewportMeta.getAttribute('content');
@@ -439,7 +439,7 @@
     document.head.appendChild(viewportMeta);
   }
 
-  // HTML віджета з батьківським контейнером
+ 
   const widgetHTML = `
     <div class="gewurz-widget-container">
       <div class="gewurz-chat-modal" id="gewurz-chat-modal">
@@ -463,7 +463,6 @@
     </div>
   `;
 
-  // Клас віджета
   class GewurzWidget {
     constructor() {
       this.isOpen = false;
@@ -474,12 +473,10 @@
     }
 
     initWidget() {
-      // Створюємо контейнер
       const container = document.createElement('div');
       container.innerHTML = widgetHTML;
       document.body.appendChild(container);
 
-      // Отримуємо елементи
       this.chatButton = document.getElementById('gewurz-chat-button');
       this.chatModal = document.getElementById('gewurz-chat-modal');
       this.closeButton = document.getElementById('gewurz-close-chat');
@@ -501,7 +498,7 @@
       this.chatButton.addEventListener('click', () => this.toggleChat());
       this.closeButton.addEventListener('click', () => this.closeChat());
 
-      // Закриття по кліку поза модалом (тільки десктоп)
+  
       document.addEventListener('click', (e) => {
         if (window.innerWidth > 768 && 
             this.isOpen && 
@@ -527,8 +524,8 @@
       this.isOpen = true;
       this.chatModal.classList.add('open');
       this.hideNotification();
+      this.chatButton.style.zIndex = '2147483645';
       
-      // Динамічно застосовуємо мобільні стилі через JavaScript
       if (window.innerWidth <= 768) {
         this.applyMobileStyles();
       }
@@ -538,11 +535,10 @@
         this.chatIframe.src = CONFIG.chatUrl;
         
         this.chatIframe.onload = () => {
-          // Просто ховаємо спіннер після завантаження iframe
-          // Покладаємося на postMessage від чату
+  
           setTimeout(() => {
             this.hideSpinner();
-          }, 2000); // 2 секунди після завантаження iframe
+          }, 2000);
         };
         
         this.isLoaded = true;
@@ -552,7 +548,6 @@
     applyMobileStyles() {
       const modal = this.chatModal;
       
-      // Застосовуємо стилі прямо через JavaScript - ще більше місця для кнопки
       modal.style.cssText = `
         position: fixed !important;
         top: 40px !important;
@@ -597,12 +592,12 @@
     closeChat() {
       this.isOpen = false;
       this.chatModal.classList.remove('open');
+       this.chatButton.style.zIndex = '2147483647';
       
-      // Скидаємо inline стилі
       if (window.innerWidth <= 768) {
         this.chatModal.style.cssText = '';
         this.chatIframe.style.cssText = '';
-        // НЕ скидаємо стилі кнопки, щоб вона залишалася в стандартній позиції
+    
       }
     }
 
@@ -614,7 +609,7 @@
       const spinner = document.createElement('div');
       spinner.className = 'gewurz-spinner';
       
-      // Застосовуємо мобільні стилі для спіннера якщо потрібно
+    
       if (window.innerWidth <= 768) {
         spinnerOverlay.style.cssText = `
           position: absolute !important;
@@ -672,7 +667,7 @@
     }
   }
 
-  // Ініціалізація після завантаження DOM
+
   function initWidget() {
     const widget = new GewurzWidget();
 
@@ -685,7 +680,7 @@
       config: CONFIG
     };
 
-    // Повідомляємо про готовність
+   
     window.dispatchEvent(new CustomEvent('gewurz-chat-ready'));
   }
 
@@ -696,4 +691,5 @@
   }
 
 })();
+
 
