@@ -4,14 +4,67 @@
   if (window.GewurzChatLoaded) return;
   window.GewurzChatLoaded = true;
 
+
+  const scriptTag = document.querySelector('script[src*="widget.js"]');
+  
+
+  const desktopButtonBottom = scriptTag?.getAttribute('data-bottom') || '60px';
+  const desktopButtonRight = scriptTag?.getAttribute('data-right') || '125px';
+  const desktopButtonLeft = scriptTag?.getAttribute('data-left') || 'auto';
+  const desktopButtonTop = scriptTag?.getAttribute('data-top') || 'auto';
+  
+  const desktopChatBottom = scriptTag?.getAttribute('data-chat-bottom') || '80px';
+  const desktopChatRight = scriptTag?.getAttribute('data-chat-right') || '20px';
+  const desktopChatLeft = scriptTag?.getAttribute('data-chat-left') || 'auto';
+  const desktopChatTop = scriptTag?.getAttribute('data-chat-top') || 'auto';
+  
+  
+  const mobileButtonBottom = scriptTag?.getAttribute('data-mobile-bottom') || '90px';
+  const mobileButtonRight = scriptTag?.getAttribute('data-mobile-right') || '10px';
+  const mobileButtonLeft = scriptTag?.getAttribute('data-mobile-left') || 'auto';
+  const mobileButtonTop = scriptTag?.getAttribute('data-mobile-top') || 'auto';
+  
+  const mobileChatBottom = scriptTag?.getAttribute('data-mobile-chat-bottom') || '80px';
+  const mobileChatRight = scriptTag?.getAttribute('data-mobile-chat-right') || '10px';
+  const mobileChatLeft = scriptTag?.getAttribute('data-mobile-chat-left') || '10px';
+  const mobileChatTop = scriptTag?.getAttribute('data-mobile-chat-top') || '20px';
+
   const CONFIG = {
     chatUrl: 'https://mariiabakhmat.github.io/GewGur_widget/chat.html',
     iconUrl: 'https://github.com/MariiaBakhmat/GewGur_widget/raw/main/Group%20112.webp',
     showNotificationAfter: 0,
-    position: 'bottom-right'
+    desktop: {
+      button: {
+        bottom: desktopButtonBottom,
+        right: desktopButtonRight,
+        left: desktopButtonLeft,
+        top: desktopButtonTop
+      },
+      chat: {
+        bottom: desktopChatBottom,
+        right: desktopChatRight,
+        left: desktopChatLeft,
+        top: desktopChatTop
+      }
+    },
+    mobile: {
+      button: {
+        bottom: mobileButtonBottom,
+        right: mobileButtonRight,
+        left: mobileButtonLeft,
+        top: mobileButtonTop
+      },
+      chat: {
+        bottom: mobileChatBottom,
+        right: mobileChatRight,
+        left: mobileChatLeft,
+        top: mobileChatTop
+      }
+    }
   };
 
   const CSS = `
+
     .gewurz-widget-container * {
       box-sizing: border-box !important;
       margin: 0 !important;
@@ -49,10 +102,13 @@
       z-index: auto !important;
     }
 
+
     .gewurz-widget-container {
       position: fixed !important;
-      bottom: 60px !important;
-      right: 125px !important;
+      bottom: ${CONFIG.desktop.button.bottom} !important;
+      right: ${CONFIG.desktop.button.right} !important;
+      left: ${CONFIG.desktop.button.left} !important;
+      top: ${CONFIG.desktop.button.top} !important;
       z-index: 2147483647 !important;
       font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif !important;
       font-size: 14px !important;
@@ -71,8 +127,6 @@
       clear: none !important;
       overflow: visible !important;
       transform: none !important;
-      top: auto !important;
-      left: auto !important;
     }
 
     .gewurz-widget-container .gewurz-chat-button {
@@ -100,11 +154,6 @@
       clear: none !important;
       vertical-align: baseline !important;
       z-index: 2147483647 !important;
-    }
-
- 
-    .gewurz-widget-container .gewurz-chat-button.gewurz-hidden {
-      display: none !important;
     }
 
     .gewurz-widget-container .gewurz-chat-button:hover {
@@ -141,8 +190,10 @@
 
     .gewurz-widget-container .gewurz-chat-modal {
       position: fixed !important;
-      bottom: 80px !important;
-      right: 20px !important;
+      bottom: ${CONFIG.desktop.chat.bottom} !important;
+      right: ${CONFIG.desktop.chat.right} !important;
+      left: ${CONFIG.desktop.chat.left} !important;
+      top: ${CONFIG.desktop.chat.top} !important;
       width: 400px !important;
       height: 522px !important;
       background: transparent !important;
@@ -265,18 +316,18 @@
       animation: gewurz-pulse 1s ease-in-out 3 !important;
     }
 
+    /* МОБІЛЬНІ ПОЗИЦІЇ ТА РОЗМІРИ */
     @media screen and (max-width: 768px) {
       .gewurz-widget-container {
-        bottom: 90px !important;
-        right: 10px !important;
-        left: auto !important;
-        z-index: 2147483647 !important;
+        bottom: ${CONFIG.mobile.button.bottom} !important;
+        right: ${CONFIG.mobile.button.right} !important;
+        left: ${CONFIG.mobile.button.left} !important;
+        top: ${CONFIG.mobile.button.top} !important;
       }
 
       .gewurz-widget-container .gewurz-chat-button {
         width: 72px !important;
         height: 72px !important;
-        z-index: 2147483648 !important;
       }
 
       .gewurz-widget-container .gewurz-chat-button img {
@@ -284,18 +335,12 @@
         height: 72px !important;
       }
 
-      .gewurz-widget-container .gewurz-close-button {
-        width: 34px !important;
-        height: 29px !important;
-        font-size: 20px !important;
-      }
-
       .gewurz-widget-container .gewurz-chat-modal {
         position: fixed !important;
-        top: 20px !important;
-        left: 10px !important;
-        right: 10px !important;
-        bottom: 80px !important;
+        bottom: ${CONFIG.mobile.chat.bottom} !important;
+        right: ${CONFIG.mobile.chat.right} !important;
+        left: ${CONFIG.mobile.chat.left} !important;
+        top: ${CONFIG.mobile.chat.top} !important;
         width: calc(100vw - 20px) !important;
         height: calc(100vh - 120px) !important;
         height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 120px) !important;
@@ -348,6 +393,12 @@
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+      }
+
+      .gewurz-widget-container .gewurz-close-button {
+        width: 34px !important;
+        height: 29px !important;
+        font-size: 20px !important;
       }
 
       .gewurz-widget-container .gewurz-spinner-overlay {
@@ -410,7 +461,7 @@
       }
     }
 
-    /* КЛАС ДЛЯ ПРИХОВУВАННЯ КНОПКИ КОЛИ ЧАТ ВІДКРИТИЙ */
+
     .gewurz-widget-container .gewurz-chat-button.gewurz-hidden {
       display: none !important;
     }
@@ -526,10 +577,6 @@
       // Ховаємо кнопку через CSS клас
       this.chatButton.classList.add('gewurz-hidden');
       
-      if (window.innerWidth <= 768) {
-        this.applyMobileStyles();
-      }
-      
       if (!this.isLoaded) {
         this.showSpinner();
         this.chatIframe.src = CONFIG.chatUrl;
@@ -544,60 +591,10 @@
       }
     }
 
-    applyMobileStyles() {
-      const modal = this.chatModal;
-      
-      modal.style.cssText = `
-        position: fixed !important;
-        top: 40px !important;
-        left: 20px !important;
-        right: 20px !important;
-        bottom: 160px !important;
-        width: calc(100vw - 40px) !important;
-        height: calc(100vh - 200px) !important;
-        max-width: calc(100vw - 40px) !important;
-        max-height: calc(100vh - 200px) !important;
-        border-radius: 16px !important;
-        border: 1px solid #336C4D !important;
-        transform: translateY(0) !important;
-        opacity: 1 !important;
-        transition: all 0.3s ease !important;
-        overflow: hidden !important;
-        display: block !important;
-        z-index: 2147483646 !important;
-        background: transparent !important;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      `;
-      
-      const iframe = this.chatIframe;
-      iframe.style.cssText = `
-        width: 100% !important;
-        height: 100% !important;
-        border: none !important;
-        border-radius: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        position: static !important;
-        display: block !important;
-        background: transparent !important;
-      `;
-      
-      console.log('Mobile styles applied - more space for button');
-    }
-
     closeChat() {
       this.isOpen = false;
       this.chatModal.classList.remove('open');
-      
-      // Показуємо кнопку знову через видалення CSS класу
       this.chatButton.classList.remove('gewurz-hidden');
-      
-      if (window.innerWidth <= 768) {
-        this.chatModal.style.cssText = '';
-        this.chatIframe.style.cssText = '';
-      }
     }
 
     showSpinner() {
@@ -607,28 +604,6 @@
       
       const spinner = document.createElement('div');
       spinner.className = 'gewurz-spinner';
-      
-      if (window.innerWidth <= 768) {
-        spinnerOverlay.style.cssText = `
-          position: absolute !important;
-          top: 0 !important;
-          left: 0 !important;
-          right: 0 !important;
-          bottom: 0 !important;
-          width: 100% !important;
-          height: 100% !important;
-          border-radius: 16px !important;
-          background: rgba(0, 56, 54, 0.9) !important;
-          backdrop-filter: blur(8px) !important;
-          -webkit-backdrop-filter: blur(8px) !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          z-index: 10 !important;
-          margin: 0 !important;
-          padding: 0 !important;
-        `;
-      }
       
       spinnerOverlay.appendChild(spinner);
       this.chatModal.appendChild(spinnerOverlay);
