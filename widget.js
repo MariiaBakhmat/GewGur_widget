@@ -508,7 +508,7 @@
         }
       });
 
-      // Закриття по Escape
+   
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && this.isOpen) {
           this.closeChat();
@@ -524,7 +524,7 @@
       this.isOpen = true;
       this.chatModal.classList.add('open');
       this.hideNotification();
-      this.chatButton.style.zIndex = 'none';
+      this.chatButton.style.display = 'none';
       
       if (window.innerWidth <= 768) {
         this.applyMobileStyles();
@@ -592,7 +592,7 @@
     closeChat() {
       this.isOpen = false;
       this.chatModal.classList.remove('open');
-       this.chatButton.style.zIndex = 'flex';
+       this.chatButton.style.display = 'flex';
       
       if (window.innerWidth <= 768) {
         this.chatModal.style.cssText = '';
@@ -691,6 +691,7 @@
   }
 
 })();
+
 
 
 
