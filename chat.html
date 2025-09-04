@@ -311,11 +311,10 @@
     let isWaitingForResponse = false;
 
 
-    function parseMarkdownLinks(text) {
-      const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-      return text.replace(linkRegex, (match, linkText, url) => {
-        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
-      });
+    function parseMarkdown(text) {
+      text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+        return text;
     }
 
     function appendMessage(sender, message) {
@@ -326,7 +325,7 @@
       bubble.classList.add("message-bubble");
       
       if (sender === "bot") {
-        const processedMessage = parseMarkdownLinks(message);
+        const processedMessage = parseMarkdown(message);
         bubble.innerHTML = processedMessage;
       } else {
         bubble.textContent = message;
@@ -440,4 +439,5 @@
   </script>
 </body>
 </html>
+
 
