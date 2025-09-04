@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-  <title>Gewürz Guru Chat</title>
+  <title>GewÃ¼rz Guru Chat</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
@@ -154,6 +154,16 @@
       border-bottom-left-radius: 3px;
     }
 
+    .message-bubble a {
+      color: #FFD700;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    .message-bubble a:hover {
+      color: #FFF8DC;
+    }
+
     .message-avatar {
       width: 24px;
       height: 24px;
@@ -225,7 +235,6 @@
       min-width: 30px;
     }
 
-    /* Мобільні адаптації */
     @media screen and (max-width: 768px) {
       .header {
         padding: 12px 16px;
@@ -258,7 +267,6 @@
       }
     }
 
-    /* Підтримка старих браузерів */
     @supports not (height: 100dvh) {
       html, body {
         height: 100vh;
@@ -278,7 +286,7 @@
 <body>
   <div class="chat-container">
     <div class="header">
-      <h1>Gewürz Guru Chat</h1>
+      <h1>GewÃ¼rz Guru Chat</h1>
     </div>
     <div id="chat-history" class="chat-history"></div>
     <div class="chat-input-area">
@@ -302,13 +310,28 @@
 
     let isWaitingForResponse = false;
 
+
+    function parseMarkdownLinks(text) {
+      const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+      return text.replace(linkRegex, (match, linkText, url) => {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${linkText}</a>`;
+      });
+    }
+
     function appendMessage(sender, message) {
       const container = document.createElement("div");
       container.classList.add("message-container", sender === "user" ? "user" : "bot");
 
       const bubble = document.createElement("div");
       bubble.classList.add("message-bubble");
-      bubble.textContent = message;
+      
+      // Обробляємо посилання тільки для повідомлень бота
+      if (sender === "bot") {
+        const processedMessage = parseMarkdownLinks(message);
+        bubble.innerHTML = processedMessage;
+      } else {
+        bubble.textContent = message;
+      }
 
       if (sender === "bot") {
         const avatar = document.createElement("img");
@@ -355,17 +378,17 @@
         if (Array.isArray(data.history) && data.history.length > 0) {
           data.history.forEach(({ sender, text }) => appendMessage(sender, text));
         } else {
-          appendMessage("bot", "Hey! Ich bin der Gewürz Guru — dein Helfer beim Einkaufen. Ich bin noch neu hier, aber ich kann dir schon jetzt helfen, den richtigen Tee oder das perfekte Gewürz zu finden!");
+          appendMessage("bot", "Hey! Ich bin der Gewürz Guru – dein Helfer beim Einkaufen.Ich bin noch neu hier, aber ich kann dir schon jetzt helfen, den richtigen Tee oder das perfekte Gewürz zu finden!");
         }
         
-        // Повідомляємо віджет що контент завантажився
+
         window.parent.postMessage({type: 'chat-loaded'}, '*');
         
       } catch (e) {
         console.error("memory error", e);
-        appendMessage("bot", "Hey! Ich bin der Gewürz Guru — dein Helfer beim Einkaufen. Ich bin noch neu hier, aber ich kann dir schon jetzt helfen, den richtigen Tee oder das perfekte Gewürz zu finden!");
+        appendMessage("bot", "Hoppla, da ist etwas schiefgelaufen. Bitte versuche es später erneut oder wende dich an den Support!");
         
-        // Навіть при помилці повідомляємо про завантаження
+       
         window.parent.postMessage({type: 'chat-loaded'}, '*');
       }
     }
@@ -390,10 +413,10 @@
           body: JSON.stringify({ sessionId, chatInput: message }),
         });
         const data = await res.json();
-        appendMessage("bot", data.text || "[Hoppla, da ist etwas schiefgelaufen...]");
+        appendMessage("bot", data.text || "[ Hoppla, da ist etwas schiefgelaufen. Bitte versuche es später erneut oder wende dich an den Support.]");
       } catch (e) {
         console.error(e);
-        appendMessage("bot", "[Hoppla, da ist etwas schiefgelaufen...]");
+        appendMessage("bot", "[Hoppla, da ist etwas schiefgelaufen. Bitte versuche es später erneut oder wende dich an den Support.]");
       } finally {
         if (loaderBubble) loaderBubble.remove();
         isWaitingForResponse = false;
@@ -412,7 +435,6 @@
       }
     });
 
-    // Завантажуємо історію при завантаженні DOM
     document.addEventListener('DOMContentLoaded', function() {
       loadHistory();
     });
